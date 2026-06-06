@@ -16,6 +16,14 @@ description: A reference page for the `create-fvtt-module` CLI tool.
   - SF2e-PF2e cross-compatibility (via UUID redirects)
   - TypeScript definitions and package.json config to share types between modules
 
+## Usage
+
+```bash
+npx create-fvtt-module@latest
+```
+
+This will prompt you for the name of your module and other configuration options. **Navigate using `arrow keys`, select checkboxes with `space`, and `enter` to confirm.** After you answer the prompts, it will generate the module structure in a new folder with the name you provided.
+
 ## Further reading
 
 - See the [GitHub repository](https://github.com/MrVauxs/create-fvtt-module).
