@@ -36,3 +36,9 @@
     height: auto;
   }
 }
+table {
+  td:first-child {
+    /* Make first column not wrap */
+    white-space: nowrap;
+  }
+}

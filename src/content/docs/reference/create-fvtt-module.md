@@ -3,27 +3,128 @@ title: create-fvtt-module
 description: A reference page for the `create-fvtt-module` CLI tool.
 ---
 
-`create-fvtt-module` is a CLI tool that generates a ready-to-ship module structure for Foundry VTT, allowing you to quickly set up a new module with the necessary files and folders. This includes:
+`create-fvtt-module` is a CLI scaffolding tool that generates a ready-to-ship module structure for [Foundry VTT](https://foundryvtt.com/). It walks you through an interactive prompt and writes out a new folder containing everything you need to start developing. A built `module.json`, source files, build tooling, optional compendium packs, and optional addons.
 
-- A basic module structure with example files
-- Vite integration, including:
-  - Including Hot Module Replacement (HMR) for development
-  - [FoundryVTT-Sync](https://github.com/MrVauxs/FoundryVTT-Sync) for building compendiums along with the module
-- TypeScript support (using [7H3LaughingMan/foundry-types](https://github.com/7H3LaughingMan/foundry-types))
-- Compendium extraction scripts
-- Optional addons:
-  - GitHub Actions for automatic releases and changelogs
-  - SF2e-PF2e cross-compatibility (via UUID redirects)
-  - TypeScript definitions and package.json config to share types between modules
-
-## Usage
+## Quick start
 
 ```bash
 npx create-fvtt-module@latest
+# or, with Bun
+bunx create-fvtt-module@latest
 ```
 
-This will prompt you for the name of your module and other configuration options. **Navigate using `arrow keys`, select checkboxes with `space`, and `enter` to confirm.** After you answer the prompts, it will generate the module structure in a new folder with the name you provided.
+This prompts you for a title and other configuration, then generates the module in a new folder named after your module ID. **Navigate prompts with `arrow keys`, toggle multiselect options with `space`, and confirm with `enter`.** When it finishes it prints a `cd` command to get you started.
+
+To update the globally installed CLI:
+
+```bash
+npm install -g create-fvtt-module@latest
+# or
+bun add -g create-fvtt-module@latest
+```
+
+The CLI checks npm for a newer version on each run and tells you if one is available (using whichever package manager it detects).
+
+## What gets generated
+
+Depending on the answers you give, the output can include:
+
+- **A `module.json`** filled in with your title, ID, description, Foundry version compatibility, supported systems, and any pack definitions.
+- **Source files** with example code (in the `vite` template).
+- **Vite build tooling** (in the `vite` template), including:
+  - A `dev` server that proxies a running Foundry instance, with Hot Module Replacement.
+  - [FoundryVTT-Sync](https://github.com/MrVauxs/FoundryVTT-Sync) to build compendium databases from JSON on build.
+  - Configurable dev/Foundry ports through a `.env` file (`FOUNDRY_PORT`, `DEV_PORT`).
+- **TypeScript support** using [`@7h3laughingman/foundry-types`](https://github.com/7H3LaughingMan/foundry-types).
+- **Compendium packs** of the types you select, optionally nested inside a named folder, plus `extract` and `symlink` helper scripts.
+- **Optional addons** (see below).
+- **A git repository** with an initial commit, if you opt in.
+
+## Templates
+
+When you run the tool you choose a template:
+
+| Template | Description                                                                                           |
+| -------- | ----------------------------------------------------------------------------------------------------- |
+| `vite`   | The full development setup: Vite, HMR, FoundryVTT-Sync, TypeScript, pack scripts, and example source. |
+| `basic`  | A minimal scaffold — essentially just a `module.json`.                                                |
+
+You can preselect one with the `--template` flag to skip the prompt.
+
+## System & version support
+
+The tool prompts for a **Foundry version** (V13 or V14) and lets you select one or more **systems** (multiselect):
+
+- **dnd5e** — Dungeons & Dragons 5th Edition
+- **pf2e** — Pathfinder 2nd Edition
+- **sf2e** — Starfinder 2nd Edition
+
+Additional systems and versions can be added in the tool's `src/options.ts`.
+
+## Compendium packs
+
+You can scaffold pack definitions for any combination of **Adventures, Items, Journals, and Actors**. If you select at least one, the tool offers to nest them inside a named folder. The generated `vite` template includes scripts to manage them:
+
+- `npm run extract` — extract compiled packs back into editable JSON (`data/`).
+- `npm run symlink` — symlink your build into your Foundry data folder for live development.
+
+## Addons
+
+After the core prompts, you can enable any of these addons (multiselect):
+
+- **Github Workflow** — adds GitHub Actions for automated releases.
+- **SF2e <=> PF2e UUID Redirects** — adds UUID redirects for modules that support both SF2e and PF2e. *On by default; automatically skipped unless the module supports both systems.*
+- **Typed Module API** — scaffolds a typed API (`types.d.ts`, `api.ts`, and `package.json` exports) so other modules can consume your types. *On by default.*
+
+## Usage and flags
+
+```bash
+create-fvtt-module [title] [options]
+```
+
+| Flag                    | Description                                                                                    |
+| ----------------------- | ---------------------------------------------------------------------------------------------- |
+| `[title]`               | Module title (positional; prompted if omitted).                                                |
+| `--auto-id`             | Auto-generate the module ID from the title (skips the ID prompt).                              |
+| `--template <name>`     | Use a specific template (`vite` or `basic`).                                                   |
+| `--migrate-from <path>` | Migrate compendium packs from an existing module — a local `module.json` path or a remote URL. |
+| `--override`            | Overwrite an existing folder without confirmation.                                             |
+| `--help`, `-h`          | Show help.                                                                                     |
+| `--version`, `-v`       | Show the version.                                                                              |
+
+Examples:
+
+```bash
+create-fvtt-module "My Module" --auto-id
+create-fvtt-module --template vite
+create-fvtt-module "My Module" --migrate-from ./old-module/module.json
+create-fvtt-module "My Module" --migrate-from https://example.com/module.json
+```
+
+### Migrating packs from an existing module
+
+`--migrate-from` reads a `module.json` (from disk or a URL), extracts its compendium packs, and brings them into your newly scaffolded module. This is useful for splitting content out of an old module or starting a rework without rebuilding your compendiums by hand.
+
+## Interactive prompts (reference)
+
+When run without flags, the tool asks (in order, some conditional):
+
+1. **Template** — `vite` or `basic`.
+2. **Module Title** — display name.
+3. **Module ID** — must be lowercase alphanumeric with hyphens (e.g. `my-awesome-module`); defaults to a slug of the title.
+4. **Overwrite?** — only if a folder with that ID already exists.
+5. **Description**.
+6. **Foundry Version** — V13 or V14.
+7. **System(s)** — dnd5e / pf2e / sf2e.
+8. **Packs** — Adventures / Items / Journals / Actors; if any chosen, whether to nest them in a named folder.
+9. **Addons** — see above.
+10. **Install dependencies?** — only if the template has a `package.json`.
+11. **Initialize a git repository?** — also creates an initial commit.
+12. **Run onCreate script?** — only if the template ships one.
 
 ## Further reading
 
-- See the [GitHub repository](https://github.com/MrVauxs/create-fvtt-module).
+- [GitHub repository](https://github.com/MrVauxs/create-fvtt-module)
+- [FoundryVTT-Sync](https://github.com/MrVauxs/FoundryVTT-Sync)
+- [@7h3laughingman/foundry-types](https://github.com/7H3LaughingMan/foundry-types)
+- [Foundry VTT Module Development](https://foundryvtt.com/article/modules/)
