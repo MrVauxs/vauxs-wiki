@@ -1,0 +1,38 @@
+/* @layer my-reset, starlight, my-overrides; */
+
+/* Dark mode colors. */
+:root {
+  --sl-color-accent-low: #00273d;
+  --sl-color-accent: #0071a7;
+  --sl-color-accent-high: #92d1fe;
+  --sl-color-white: #ffffff;
+  --sl-color-gray-1: #e9eef4;
+  --sl-color-gray-2: #bcc3ca;
+  --sl-color-gray-3: #808d9a;
+  --sl-color-gray-4: #4e5966;
+  --sl-color-gray-5: #2e3945;
+  --sl-color-gray-6: #1d2833;
+  --sl-color-black: #14191e;
+}
+/* Light mode colors. */
+:root[data-theme="light"] {
+  --sl-color-accent-low: #b0deff;
+  --sl-color-accent: #0073aa;
+  --sl-color-accent-high: #003653;
+  --sl-color-white: #14191e;
+  --sl-color-gray-1: #1d2833;
+  --sl-color-gray-2: #2e3945;
+  --sl-color-gray-3: #4e5966;
+  --sl-color-gray-4: #808d9a;
+  --sl-color-gray-5: #bcc3ca;
+  --sl-color-gray-6: #e9eef4;
+  --sl-color-gray-7: #f4f7fa;
+  --sl-color-black: #ffffff;
+}
+
+.hero {
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
