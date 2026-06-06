@@ -25,7 +25,7 @@ export default defineConfig({
 			logo: {
 				src: './src/assets/vauxs-64.gif',
 			},
-			favicon: './src/assets/vauxs-16.gif',
+			favicon: './vauxs-16.gif',
 			customCss: [
 				'./src/styles/custom.css',
 			],
