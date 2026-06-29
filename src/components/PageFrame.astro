@@ -21,9 +21,7 @@ const { hasSidebar } = Astro.locals.starlightRoute;
         class="sidebar print:hidden"
         aria-label={Astro.locals.t("sidebarNav.accessibleLabel")}
       >
-        <div class="vx-mobile-bar md:sl-hidden">
-          <MobileMenuToggle />
-        </div>
+        <MobileMenuToggle />
         <div id="starlight__sidebar" class="sidebar-pane">
           <div class="sidebar-content sl-flex">
             <slot name="sidebar" />
@@ -40,22 +38,6 @@ const { hasSidebar } = Astro.locals.starlightRoute;
     .page {
       flex-direction: column;
       min-height: 100vh;
-    }
-
-    /* Small mobile bar that holds the menu toggle (no full header). */
-    .vx-mobile-bar {
-      position: fixed;
-      inset-block-start: 0;
-      inset-inline: 0;
-      z-index: var(--sl-z-index-navbar);
-      height: var(--sl-nav-height);
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      padding: var(--sl-nav-pad-y) var(--sl-nav-pad-x);
-      background-color: var(--sl-color-bg-nav);
-      border-bottom: 1px solid var(--sl-color-hairline-shade);
-      backdrop-filter: blur(8px);
     }
 
     .sidebar-pane {
@@ -83,17 +65,14 @@ const { hasSidebar } = Astro.locals.starlightRoute;
     }
 
     /* On mobile the content clears the small toggle bar. */
+    /* On mobile there's no top bar — only the floating menu button — so the
+       content just needs to clear that button, not a full nav-height bar. */
     .main-frame {
-      padding-top: calc(
-        var(--sl-nav-height) + var(--sl-mobile-toc-height, 0px)
-      );
+      padding-top: calc(var(--sl-menu-button-size) + 1rem);
       padding-inline-start: var(--sl-content-inline-start);
     }
 
     @media (min-width: 50rem) {
-      .vx-mobile-bar {
-        display: none;
-      }
       /* Sidebar spans the full height, from the very top. Frosted-glass blur
          so content sliding behind it during transitions reads as blurred. */
       .sidebar-pane {
