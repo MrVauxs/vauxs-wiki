@@ -94,13 +94,15 @@ const { hasSidebar } = Astro.locals.starlightRoute;
       .vx-mobile-bar {
         display: none;
       }
-      /* Sidebar spans the full height, from the very top. */
+      /* Sidebar spans the full height, from the very top. Frosted-glass blur
+         so content sliding behind it during transitions reads as blurred. */
       .sidebar-pane {
         --sl-sidebar-visibility: visible;
         inset-block: 0;
         width: var(--sl-sidebar-width);
         background-color: var(--sl-color-bg-sidebar);
         border-inline-end: 1px solid var(--sl-color-hairline-shade);
+        backdrop-filter: blur(8px);
       }
       .sidebar-content {
         padding-top: 1.25rem;

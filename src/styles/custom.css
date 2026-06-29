@@ -323,3 +323,34 @@ table {
     white-space: nowrap;
   }
 }
+
+/* ============================================================
+   View transitions — keep the sliding content behind the sidebar
+   During a slide, the page content is captured into a view-transition
+   pseudo-element that paints in the top layer, above normal content — so
+   it would slide out OVER the sidebar. Giving the sidebar its own
+   view-transition group lets us paint it above the content's group, so the
+   content slides out behind it instead.
+   ============================================================ */
+@media (min-width: 50rem) {
+  .sidebar-pane {
+    view-transition-name: vx-sidebar;
+  }
+}
+/* The sidebar group sits above the root (content) group during transitions. */
+::view-transition-group(vx-sidebar) {
+  z-index: 10;
+}
+/* The sidebar's nav changes per page (active item, inline TOC), so the old
+   snapshot must NOT linger — that produced a ghosted afterimage. Drop the old
+   capture entirely and show the new one immediately, no fade. The new capture
+   blurs the content sliding behind it (frosted glass). */
+::view-transition-old(vx-sidebar) {
+  animation: none;
+  opacity: 0;
+}
+::view-transition-new(vx-sidebar) {
+  animation: none;
+  opacity: 1;
+  backdrop-filter: blur(8px);
+}
