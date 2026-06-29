@@ -132,7 +132,9 @@ button,
 input,
 .card .icon,
 .tab,
-.starlight-aside__title {
+.starlight-aside__title,
+.hero .tagline,
+.hero .actions {
   font-family: var(--vx-sans);
 }
 
