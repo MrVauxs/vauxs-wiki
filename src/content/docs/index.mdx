@@ -1,26 +1,54 @@
 ---
 title: Welcome to Vauxs' Wiki
 description: An open collection of resources written by Vauxs.
-template: splash # Remove or comment out this line to display the site sidebar on this page.
 hero:
-  tagline: An open collection of resources written by Vauxs.
-  image:
-    html: <img src="/vauxs-hi.webp" alt="Vauxs' Robot waving to you" title="Drawn by Brendan Cave" />
-
+  tagline: An open collection of resources for Vauxs' stuff.
+  actions:
+    - text: Start reading
+      link: /reference/create-fvtt-module
+      icon: right-arrow
+      variant: primary
+    - text: View on GitHub
+      link: https://github.com/MrVauxs/vauxs-wiki
+      icon: external
+      variant: minimal
 ---
 
-import { Card, CardGrid } from "@astrojs/starlight/components";
+import { Card, CardGrid, LinkCard } from "@astrojs/starlight/components";
+
+<div class="vx-section">
 
 ## Where to start?
 
 <CardGrid>
-	<Card title="create-fvtt-module" icon="window">
-		See the docs for <a href="/reference/create-fvtt-module">`create-fvtt-module`</a>, a templating CLI tool.
+	<Card title="create-fvtt-module" icon="seti:javascript">
+		A templating CLI for spinning up modern Foundry VTT modules.
+		[Read the docs →](/reference/create-fvtt-module)
 	</Card>
-  <Card title="Update content" icon="pencil">
-    Want to contribute? Clone the repository and make a PR!
-  </Card>
-  <Card title="Read the docs" icon="open-book">
-    Learn more in [the Starlight Docs](https://starlight.astro.build/).
-  </Card>
+	<Card title="Guides" icon="open-book">
+		Walkthroughs and notes on the things I keep relearning.
+		[Browse guides →](/guides/example)
+	</Card>
+	<Card title="Contribute" icon="pencil">
+		Spotted something wrong or missing? Clone the repo and open a PR.
+		[github.com/MrVauxs →](https://github.com/MrVauxs/vauxs-wiki)
+	</Card>
+	<Card title="Built with Starlight" icon="rocket">
+		This wiki runs on Astro Starlight.
+		[Starlight docs →](https://starlight.astro.build/)
+	</Card>
 </CardGrid>
+
+</div>
+
+<div class="vx-section">
+
+## Latest & notable
+
+<LinkCard
+	title="create-fvtt-module"
+	description="The CLI tool that started this whole thing. Reference docs and usage."
+	href="/reference/create-fvtt-module"
+/>
+
+</div>
