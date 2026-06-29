@@ -30,6 +30,8 @@ export default defineConfig({
 				'./src/styles/custom.css',
 			],
 			components: {
+				// Enable SPA-style view transitions site-wide.
+				Head: './src/components/Head.astro',
 				// No top header bar — chrome lives in the sidebar instead.
 				PageFrame: './src/components/PageFrame.astro',
 				// Sidebar holds title/search/controls + nav with the TOC woven in.

@@ -1,0 +1,25 @@
+---
+import { slide } from "astro:transitions";
+import StarlightHead from "@astrojs/starlight/components/Head.astro";
+import VtbotStarlight from "astro-vtbot/components/starlight/Base.astro";
+---
+
+<VtbotStarlight
+  transition:animate={slide({ duration: "0.3s" })}
+  viewTransitionsFallback="animate"
+>
+  <StarlightHead><slot /></StarlightHead>
+</VtbotStarlight>
+
+<script is:inline>
+  document.addEventListener("astro:after-swap", () => {
+    const stored = localStorage.getItem("starlight-theme");
+    const theme =
+      stored === "light" || stored === "dark"
+        ? stored
+        : matchMedia("(prefers-color-scheme: light)").matches
+          ? "light"
+          : "dark";
+    document.documentElement.dataset.theme = theme;
+  });
+</script>
