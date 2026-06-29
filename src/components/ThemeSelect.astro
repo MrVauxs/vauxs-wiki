@@ -1,0 +1,106 @@
+---
+/**
+ * Override of Starlight's theme picker.
+ * A single compact button that cycles auto → light → dark (instead of the
+ * default <select> dropdown) to save horizontal space in the sidebar.
+ * Reuses Starlight's global StarlightThemeProvider so there's no FOUC.
+ */
+import { Icon } from '@astrojs/starlight/components';
+---
+
+<starlight-theme-toggle>
+	<button type="button" aria-label="Toggle color theme" title="Toggle color theme">
+		<Icon name="laptop" class="vx-theme-icon icon-auto" />
+		<Icon name="sun" class="vx-theme-icon icon-light" />
+		<Icon name="moon" class="vx-theme-icon icon-dark" />
+	</button>
+</starlight-theme-toggle>
+
+<script is:inline>
+	StarlightThemeProvider.updatePickers();
+</script>
+
+<script>
+	type Theme = 'auto' | 'dark' | 'light';
+
+	const storageKey = 'starlight-theme';
+	const order: Theme[] = ['auto', 'light', 'dark'];
+
+	const parseTheme = (t: unknown): Theme =>
+		t === 'auto' || t === 'dark' || t === 'light' ? t : 'auto';
+
+	const loadTheme = (): Theme =>
+		parseTheme(typeof localStorage !== 'undefined' && localStorage.getItem(storageKey));
+
+	function storeTheme(theme: Theme): void {
+		if (typeof localStorage !== 'undefined') {
+			localStorage.setItem(storageKey, theme === 'light' || theme === 'dark' ? theme : '');
+		}
+	}
+
+	const getPreferredColorScheme = (): Theme =>
+		matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+
+	function onThemeChange(theme: Theme): void {
+		// Keep any other theme pickers (e.g. mobile) in sync.
+		// @ts-expect-error — StarlightThemeProvider is a global from ThemeProvider.astro
+		StarlightThemeProvider.updatePickers(theme);
+		document.documentElement.dataset.theme =
+			theme === 'auto' ? getPreferredColorScheme() : theme;
+		storeTheme(theme);
+	}
+
+	matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => {
+		if (loadTheme() === 'auto') onThemeChange('auto');
+	});
+
+	class StarlightThemeToggle extends HTMLElement {
+		constructor() {
+			super();
+			const reflect = (theme: Theme) => this.setAttribute('data-theme-state', theme);
+			reflect(loadTheme());
+			onThemeChange(loadTheme());
+			this.querySelector('button')?.addEventListener('click', () => {
+				const next = order[(order.indexOf(loadTheme()) + 1) % order.length];
+				reflect(next);
+				onThemeChange(next);
+			});
+		}
+	}
+	customElements.define('starlight-theme-toggle', StarlightThemeToggle);
+</script>
+
+<style>
+	button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2rem;
+		height: 2rem;
+		padding: 0;
+		border: 1px solid var(--sl-color-gray-5);
+		border-radius: 0.5rem;
+		background-color: transparent;
+		color: var(--sl-color-text);
+		cursor: pointer;
+		transition: border-color 0.15s ease, color 0.15s ease;
+	}
+	button:hover {
+		border-color: var(--sl-color-accent);
+		color: var(--sl-color-white);
+	}
+	.vx-theme-icon {
+		display: none;
+		font-size: 1.1rem;
+	}
+	/* Show only the icon matching the current state. */
+	starlight-theme-toggle[data-theme-state="auto"] .icon-auto,
+	starlight-theme-toggle[data-theme-state="light"] .icon-light,
+	starlight-theme-toggle[data-theme-state="dark"] .icon-dark {
+		display: block;
+	}
+	/* Before JS runs, show the auto icon by default. */
+	starlight-theme-toggle:not([data-theme-state]) .icon-auto {
+		display: block;
+	}
+</style>

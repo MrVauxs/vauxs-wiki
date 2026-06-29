@@ -1,0 +1,20 @@
+---
+/**
+ * Override of Starlight's content layout.
+ * The default renders a right-hand sidebar column whenever the page has a
+ * table of contents. We've merged the TOC into the left nav sidebar
+ * (see Sidebar.astro), so here we render a single full-width content column
+ * and drop the reserved right column entirely.
+ */
+---
+
+<div class="main-pane"><slot /></div>
+
+<style>
+	@layer starlight.core {
+		.main-pane {
+			isolation: isolate;
+			width: 100%;
+		}
+	}
+</style>

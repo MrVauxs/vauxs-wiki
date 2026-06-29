@@ -104,6 +104,8 @@ body {
   --sl-color-bg: transparent;
   --sl-color-bg-nav: color-mix(in srgb, var(--vx-bg-soft) 82%, transparent);
   --sl-color-bg-sidebar: color-mix(in srgb, var(--vx-bg-soft) 70%, transparent);
+  /* Thinner navigation sidebar (Starlight default is 18.75rem). */
+  --sl-sidebar-width: 16rem;
 }
 :root[data-theme="light"] {
   --sl-color-bg: transparent;

@@ -1,0 +1,139 @@
+---
+/**
+ * Renders the current page's table of contents inline within the sidebar nav,
+ * beneath the active page link (Mochi-style). Wrapped in a small self-contained
+ * <vx-toc> web component that highlights the active heading on scroll.
+ *
+ * We avoid importing Starlight's internal scroll-spy (not a public export) and
+ * ship a trimmed adaptation of it below instead.
+ */
+interface TocItem {
+	depth: number;
+	slug: string;
+	text: string;
+	children: TocItem[];
+}
+
+interface Props {
+	toc: TocItem[];
+}
+
+const { toc } = Astro.props;
+const { toc: routeToc } = Astro.locals.starlightRoute;
+---
+
+<vx-toc
+	class="vx-page-toc"
+	data-min-h={routeToc?.minHeadingLevel}
+	data-max-h={routeToc?.maxHeadingLevel}
+>
+	<ul>
+		{
+			toc.map((heading) => (
+				<li>
+					<a href={'#' + heading.slug}>
+						<span>{heading.text}</span>
+					</a>
+					{heading.children.length > 0 && (
+						<ul>
+							{heading.children.map((child) => (
+								<li>
+									<a href={'#' + child.slug}>
+										<span>{child.text}</span>
+									</a>
+								</li>
+							))}
+						</ul>
+					)}
+				</li>
+			))
+		}
+	</ul>
+</vx-toc>
+
+<script>
+	// Trimmed adaptation of Starlight's scroll-spy: highlights the ToC link for
+	// whichever heading is currently in view.
+	class VxToc extends HTMLElement {
+		private links = [...this.querySelectorAll('a')];
+		private current: HTMLAnchorElement | null = null;
+		private minH = parseInt(this.dataset.minH || '2', 10);
+		private maxH = parseInt(this.dataset.maxH || '3', 10);
+
+		connectedCallback() {
+			const levels = Array.from(
+				{ length: 1 + this.maxH - this.minH },
+				(_, i) => `h${this.minH + i}`
+			).join(',');
+			const headings = [
+				...document.querySelectorAll<HTMLElement>(
+					`.sl-markdown-content :where(${levels})[id]`
+				),
+			];
+			if (!headings.length) return;
+
+			const setCurrent = (link: HTMLAnchorElement | null) => {
+				if (link === this.current) return;
+				this.current?.removeAttribute('aria-current');
+				link?.setAttribute('aria-current', 'true');
+				this.current = link;
+			};
+
+			const observer = new IntersectionObserver(
+				(entries) => {
+					for (const entry of entries) {
+						if (!entry.isIntersecting) continue;
+						const id = entry.target.id;
+						const link = this.links.find(
+							(l) => l.hash === '#' + encodeURIComponent(id)
+						);
+						if (link) {
+							setCurrent(link);
+							break;
+						}
+					}
+				},
+				{ rootMargin: '0px 0px -66% 0px' }
+			);
+			headings.forEach((h) => observer.observe(h));
+		}
+	}
+	if (!customElements.get('vx-toc')) customElements.define('vx-toc', VxToc);
+</script>
+
+<style>
+	.vx-page-toc {
+		display: block;
+		margin-top: 0.25rem;
+		margin-inline-start: 0.5rem;
+		padding-inline-start: 0.5rem;
+		border-inline-start: 1px solid var(--sl-color-hairline-light);
+	}
+	.vx-page-toc ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+	.vx-page-toc ul ul {
+		margin-inline-start: 0.6rem;
+		padding-inline-start: 0.5rem;
+		border-inline-start: 1px solid var(--sl-color-hairline-light);
+	}
+	.vx-page-toc a {
+		display: block;
+		border-radius: 0.25rem;
+		text-decoration: none;
+		color: var(--sl-color-gray-3);
+		font-size: var(--sl-text-xs);
+		line-height: 1.4;
+		padding: 0.25em 0.5em;
+		overflow-wrap: anywhere;
+	}
+	.vx-page-toc a:hover {
+		color: var(--sl-color-white);
+	}
+	.vx-page-toc a[aria-current="true"] {
+		color: var(--sl-color-text-accent);
+		font-weight: 600;
+	}
+</style>

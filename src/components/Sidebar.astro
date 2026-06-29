@@ -1,0 +1,110 @@
+---
+/**
+ * Override of Starlight's left navigation sidebar.
+ * Mochi-style: this is the ONLY chrome on the page. The top header bar is
+ * removed (see PageFrame.astro), so the site title, social links, theme
+ * toggle and search all live here at the top of the sidebar, above the nav.
+ *
+ * The page's "On this page" table of contents is woven inline beneath the
+ * active page link by our custom SidebarSublist.
+ */
+import config from 'virtual:starlight/user-config';
+import Search from 'virtual:starlight/components/Search';
+import SiteTitle from 'virtual:starlight/components/SiteTitle';
+import SocialIcons from 'virtual:starlight/components/SocialIcons';
+import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
+import MobileMenuFooter from 'virtual:starlight/components/MobileMenuFooter';
+import SidebarPersister from '@astrojs/starlight/components/SidebarPersister.astro';
+import SidebarSublist from './SidebarSublist.astro';
+
+const { sidebar } = Astro.locals.starlightRoute;
+const shouldRenderSearch =
+	config.pagefind ||
+	config.components.Search !== '@astrojs/starlight/components/Search.astro';
+---
+
+<div class="vx-sidebar-head">
+	<div class="vx-sidebar-titlebar">
+		<SiteTitle />
+		<div class="vx-sidebar-controls">
+			<SocialIcons />
+			<ThemeSelect />
+		</div>
+	</div>
+	{shouldRenderSearch && (
+		<div class="vx-sidebar-search">
+			<Search />
+		</div>
+	)}
+</div>
+
+<SidebarPersister>
+	<SidebarSublist sublist={sidebar} />
+</SidebarPersister>
+
+<div class="md:sl-hidden">
+	<MobileMenuFooter />
+</div>
+
+<style>
+	.vx-sidebar-head {
+		display: flex;
+		flex-direction: column;
+		gap: 0.85rem;
+		padding-bottom: 0.25rem;
+	}
+	.vx-sidebar-titlebar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.5rem;
+	}
+	/* Smaller, single-line site title that fits the narrow sidebar. */
+	.vx-sidebar-titlebar :global(.site-title) {
+		font-size: 1rem;
+		gap: 0.5rem;
+		min-width: 0;
+		flex: 1;
+	}
+	.vx-sidebar-titlebar :global(.site-title img) {
+		height: 1.75rem;
+	}
+
+	/* GitHub link + theme toggle: identical bordered square buttons,
+	   aligned on one horizon. */
+	.vx-sidebar-controls {
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+		flex-shrink: 0;
+	}
+	.vx-sidebar-controls :global(a),
+	.vx-sidebar-controls :global(button) {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2rem;
+		height: 2rem;
+		padding: 0;
+		margin: 0;
+		border: 1px solid var(--sl-color-gray-5);
+		border-radius: 0.5rem;
+		background-color: transparent;
+		color: var(--sl-color-text);
+		transition: border-color 0.15s ease, color 0.15s ease;
+	}
+	.vx-sidebar-controls :global(a:hover),
+	.vx-sidebar-controls :global(button:hover) {
+		border-color: var(--sl-color-accent);
+		color: var(--sl-color-white);
+	}
+	.vx-sidebar-controls :global(a svg),
+	.vx-sidebar-controls :global(button svg) {
+		font-size: 1.1rem;
+	}
+
+	.vx-sidebar-search :global(button),
+	.vx-sidebar-search :global(input) {
+		width: 100%;
+	}
+</style>

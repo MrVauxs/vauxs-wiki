@@ -29,6 +29,18 @@ export default defineConfig({
 			customCss: [
 				'./src/styles/custom.css',
 			],
+			components: {
+				// No top header bar — chrome lives in the sidebar instead.
+				PageFrame: './src/components/PageFrame.astro',
+				// Sidebar holds title/search/controls + nav with the TOC woven in.
+				Sidebar: './src/components/Sidebar.astro',
+				// Remove the right-hand "On this page" column (now in the sidebar).
+				PageSidebar: './src/components/PageSidebar.astro',
+				// Single full-width content column (no reserved right sidebar).
+				TwoColumnContent: './src/components/TwoColumnContent.astro',
+				// Compact theme toggle button instead of the dropdown.
+				ThemeSelect: './src/components/ThemeSelect.astro',
+			},
 		}),
 	],
 });
