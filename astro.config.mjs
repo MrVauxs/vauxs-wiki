@@ -6,7 +6,9 @@ import remarkGfm from 'remark-gfm';
 // https://astro.build/config
 export default defineConfig({
 	markdown: {
-		remarkPlugins: [remarkGfm],
+		remarkPlugins: [
+			remarkGfm
+		]
 	},
 	integrations: [
 		starlight({
@@ -32,6 +34,18 @@ export default defineConfig({
 			favicon: './vauxs-16.gif',
 			customCss: [
 				'./src/styles/custom.css',
+				"./src/styles/lightbox.css",
+			],
+			head: [
+				{
+					tag: 'script',
+					attrs: {
+						type: 'module',
+					},
+					content: `
+            import "/src/scripts/lightbox.ts";
+          `,
+				},
 			],
 			components: {
 				// Enable SPA-style view transitions site-wide.

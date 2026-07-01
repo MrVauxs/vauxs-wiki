@@ -1,0 +1,50 @@
+@import "glightbox/dist/css/glightbox.css";
+
+/* Link generated around Markdown images */
+.starlight-lightbox {
+  display: inline-block;
+}
+
+.starlight-lightbox img {
+  cursor: zoom-in;
+}
+
+/* Main lightbox layer */
+.glightbox-container {
+  z-index: 9999;
+  font-family: var(--vx-sans);
+}
+
+/* Caption/footer */
+#glightbox-slider .gslide-description.description-bottom {
+  background: var(--vx-bg-soft) !important;
+  color: var(--sl-color-gray-2) !important;
+  border-top: 1px solid var(--vx-border) !important;
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.18) !important;
+}
+
+#glightbox-slider .gslide-description .gdesc-inner {
+  background: transparent !important;
+  padding: 0.75rem 1rem !important;
+}
+
+#glightbox-slider .gslide-description .gslide-title {
+  margin: 0 !important;
+  color: var(--sl-color-gray-2) !important;
+  font-family: var(--vx-sans) !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  line-height: 1.45 !important;
+}
+
+#glightbox-slider .gslide-description .gslide-desc {
+  color: var(--sl-color-gray-3) !important;
+  font-family: var(--vx-sans) !important;
+  font-size: 0.8125rem !important;
+  line-height: 1.45 !important;
+}
+
+#glightbox-slider .gslide-title:empty,
+#glightbox-slider .gslide-desc:empty {
+  display: none !important;
+}
