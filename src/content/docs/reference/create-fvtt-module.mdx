@@ -7,21 +7,37 @@ description: A reference page for the `create-fvtt-module` CLI tool.
 
 ## Quick start
 
-```bash
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+<Tabs syncKey="pkg">
+  <TabItem label="npm">
+    ```bash
 npx create-fvtt-module@latest
-# or, with Bun
+    ```
+    </TabItem>
+  <TabItem label="Bun">
+    ```bash
 bunx create-fvtt-module@latest
-```
+    ```
+    </TabItem>
+</Tabs>
 
 This prompts you for a title and other configuration, then generates the module in a new folder named after your module ID. **Navigate prompts with `arrow keys`, toggle multiselect options with `space`, and confirm with `enter`.** When it finishes it prints a `cd` command to get you started.
 
 To update the globally installed CLI:
 
-```bash
+<Tabs syncKey="pkg">
+  <TabItem label="npm">
+    ```bash
 npm install -g create-fvtt-module@latest
-# or
+    ```
+    </TabItem>
+  <TabItem label="Bun">
+    ```bash
 bun add -g create-fvtt-module@latest
-```
+    ```
+    </TabItem>
+</Tabs>
 
 The CLI checks npm for a newer version on each run and tells you if one is available (using whichever package manager it detects).
 
@@ -73,7 +89,7 @@ You can scaffold pack definitions for any combination of **Adventures, Items, Jo
 After the core prompts, you can enable any of these addons (multiselect):
 
 - **Github Workflow** — adds GitHub Actions for automated releases.
-- **SF2e <=> PF2e UUID Redirects** — adds UUID redirects for modules that support both SF2e and PF2e. *On by default; automatically skipped unless the module supports both systems.*
+- **SF2e \<=> PF2e UUID Redirects** — adds UUID redirects for modules that support both SF2e and PF2e. *On by default; automatically skipped unless the module supports both systems.*
 - **Typed Module API** — scaffolds a typed API (`types.d.ts`, `api.ts`, and `package.json` exports) so other modules can consume your types. *On by default.*
 
 ## Usage and flags
