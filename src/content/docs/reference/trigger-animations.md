@@ -7,6 +7,8 @@ Trigger Animations is a FoundryVTT module that introduces node-based visual prog
 
 The special effects, also called animations, are built through [Sequencer](https://fantasycomputer.works/FoundryVTT-Sequencer/#/). Effectively, Trigger Animations is a bridge that allows you to make Sequencer's sequences via easily readable nodes.
 
+![Example Bow Trigger](../../../assets/chrome_pE2GIvyhM7.jpg)
+
 ## Making Triggers
 
 :::note
