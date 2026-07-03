@@ -36,15 +36,6 @@ export default defineConfig({
 				'./src/styles/custom.css',
 				"./src/styles/lightbox.css",
 			],
-			head: [
-				{
-					tag: "script",
-					attrs: {
-						type: "module",
-						src: "/src/scripts/lightbox.ts",
-					},
-				},
-			],
 			components: {
 				// Enable SPA-style view transitions site-wide.
 				Head: './src/components/Head.astro',
