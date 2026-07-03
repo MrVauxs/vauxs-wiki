@@ -5,6 +5,7 @@ import remarkGfm from 'remark-gfm';
 
 // https://astro.build/config
 export default defineConfig({
+	site: 'https://wiki.mrvauxs.net',
 	markdown: {
 		remarkPlugins: [
 			remarkGfm

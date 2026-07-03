@@ -1,7 +1,48 @@
 ---
 title: Trigger Animations
 description: A reference page for the `Trigger Animations` FoundryVTT module.
+head:
+  - tag: style
+    content: |
+      main h1:first-of-type { display: none; }
+      .main-frame { padding-top: 0; }
+
+      .ta-logo-wrapper {
+        display: grid;
+        max-width: 32rem;
+        width: 100%;
+        margin: 0 auto 2rem;
+      }
+
+      .ta-logo-wrapper * {
+        grid-area: 1 / 1;
+        width: 100%;
+        height: auto;
+        transition: opacity 0.3s ease;
+      }
+
+      .ta-logo-dark { opacity: 0; }
+
+      html[data-theme='dark'] .ta-logo-light { opacity: 0; }
+      html[data-theme='dark'] .ta-logo-dark  { opacity: 1; }
 ---
+
+import { Image } from 'astro:assets';
+import TriggerEngineImg from "../../../assets/TA.png";
+import TriggerEngineImgBlk from "../../../assets/TA_blk.png";
+
+<div class="ta-logo-wrapper">
+  <Image
+    src={TriggerEngineImgBlk}
+    alt="Trigger Animations Logo"
+    class="ta-logo ta-logo-light"
+  />
+  <Image
+    src={TriggerEngineImg}
+    alt="Trigger Animations Logo"
+    class="ta-logo ta-logo-dark"
+  />
+</div>
 
 Trigger Animations is a FoundryVTT module that introduces node-based visual programming for your special effect workflows. It is based on top of and in cooperation with [Trigger Engine](https://github.com/reonZ/trigger-engine) to create the UI.
 
