@@ -38,13 +38,11 @@ export default defineConfig({
 			],
 			head: [
 				{
-					tag: 'script',
+					tag: "script",
 					attrs: {
-						type: 'module',
+						type: "module",
+						src: "/src/scripts/lightbox.ts",
 					},
-					content: `
-            import "/src/scripts/lightbox.ts";
-          `,
 				},
 			],
 			components: {
