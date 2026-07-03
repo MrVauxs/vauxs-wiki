@@ -2,8 +2,7 @@ import GLightbox from "glightbox";
 
 type Lightbox = ReturnType<typeof GLightbox>;
 
-const imageSelector =
-	".sl-markdown-content img[data-image-component='true']:not([data-no-lightbox])";
+const imageSelector = ".sl-markdown-content img:not([data-no-lightbox])";
 
 declare global {
 	interface Window {
@@ -62,6 +61,7 @@ const initLightbox = () => {
 		loop: false,
 		closeOnOutsideClick: true,
 	});
+	console.log("Initialized lightbox", window.__starlightLightbox)
 };
 
 initLightbox();
