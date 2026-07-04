@@ -50,17 +50,17 @@ The special effects, also called animations, are built through [Sequencer](https
 
 ![Example Bow Trigger](../../../assets/chrome_pE2GIvyhM7.jpg)
 
-## Making Triggers
+## Creating Triggers
 
 :::note
 Examples on how to create specific animations will be done in the Guides section of the wiki.
-Below is just a succinct overview of how it works.
+Below is just an overview of how it works.
 :::
 
 You can open the modules Trigger Registration menu via the Game Settings button and heading down to Trigger Animations category. There, you are presented with all your created triggers as well as those registered by other modules. These triggers may also be separated into folders.
 Triggers have an enabled and disabled state, determining if they're being played or not. If you don't like one animation, it can be disabled.
 
-:::important
+:::danger
 All users have access to this menu, able to enable, disable, create, modify, and delete each others triggers.
 :::
 
@@ -68,11 +68,24 @@ Each animation can be given a name, a folder, priority, tags, and a description.
 
 ![Trigger Registration Menu](../../../assets/chrome_mkfIn4BVSf.png)
 
-Each trigger starts with a Start Animation node, which has a "**Name**" entry. The comma-separated list inside sets what keywords the animation listens to from Trigger Engine's Execute Animation Node.
+Each trigger starts with a Start Animation node, which has a "**Name**" entry. The comma-separated list inside sets what keywords the animation listens to from *Trigger Engine's* Execute Animation node.
+
+<details>
+<summary> Execute Animation Node </summary>
 
 The Execute Animation Node is set with a constant name, or is computed based on some characteristic of the event that triggered it, e.g. rolling an attack roll with a longbow will call a `longbow` animation, and receiving damage will call a `damage:longbow` animation. For a full list, see [the included PF2e Triggers list](#included-pf2e-triggers).
-![Start Animation Node](../../../assets/chrome_mRKfLRGVss.png)
-![Execute Animation Node](../../../assets/chrome_s0rFHgoDr3.png)
+
+| Execute Animation Node | Start Animation Node |
+| :------------------: | :--------------------: |
+| ![Execute Animation Node](../../../assets/chrome_s0rFHgoDr3.png) | ![Start Animation Node](../../../assets/chrome_mRKfLRGVss.png) |
+</details>
+
+The entire Trigger constitutes **one** Sequencer sequence built upon layer by layer with each node. Multiple Play nodes will repeat the entire sequence built up to the point of execution. Each node is categorized under its respective section ([Animation](https://fantasycomputer.works/FoundryVTT-Sequencer/#/api/animation), [Effect](https://fantasycomputer.works/FoundryVTT-Sequencer/#/api/effect), [Sound](https://fantasycomputer.works/FoundryVTT-Sequencer/#/api/sound), [Scrolling Text](https://fantasycomputer.works/FoundryVTT-Sequencer/#/api/scrolling-text), [Canvas Pan](https://fantasycomputer.works/FoundryVTT-Sequencer/#/api/canvas-pan), [Crosshair](https://fantasycomputer.works/FoundryVTT-Sequencer/#/api/crosshair), and [generic Sequence functions](https://fantasycomputer.works/FoundryVTT-Sequencer/#/api/home)) and often contains multiple Sequencer functions, related by usage. For example, the "Aim" node contains all the needed inputs for where an effect should go, the offset for that destination position, whether to randomly pick a location, within what range, whether it requires line of sight or be hidden behind walls, etc. etc. Each node relating to a specific section (e.g. Effect) accepts the given section as an input, so multiple sections can be modified irrespective of order of operations (i.e. Effect1 and Effect2 can be created and then appended to even when Effect2 was created last).
+
+:::tip
+Each node contains aliases of all of the Sequencer functions that it references, so if you are looking for a specific Sequencer function and don't know which node it belongs to, you can search for that (e.g. searching "stretchTo" will resolve to the Aim node).
+![Alias Example of searching "stretchTo" and getting Aim node](../../../assets/chrome_me5GfBqzNv.png)
+:::
 
 ### Priority and Name Resolution
 
