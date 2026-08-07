@@ -20,13 +20,13 @@ export default defineConfig({
 					label: 'Guides',
 					items: [
 						{ autogenerate: { directory: 'guides' } },
-						// Each item here is one entry in the navigation menu.
-						// { label: 'Example Guide', slug: 'guides/example' },
 					],
 				},
 				{
 					label: 'Reference',
-					items: [{ autogenerate: { directory: 'reference' } }],
+					items: [
+						{ autogenerate: { directory: 'reference' } }
+					],
 				},
 			],
 			logo: {
