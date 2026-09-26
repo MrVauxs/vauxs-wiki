@@ -16,3 +16,40 @@ Example: You have an effect that causes an enemy to be Off-Guard **specifically*
   ]
 }
 ```
+
+## The Spellshape
+Typical spellshape rule elements. Straight up copy paste if your feat name and descriptions are exactly what the spellshape should say. Otherwise edit.
+
+```json
+{
+  "itemType": "spell",
+  "key": "ItemAlteration",
+  "mode": "add",
+  "predicate": [
+    "spellshape:{item|slug}"
+  ],
+  "property": "description",
+  "value": [
+    {
+      "text": "{item|description}"
+    }
+  ]
+}
+```
+
+```json
+{
+  "key": "RollOption",
+  "label": "PF2E.TraitSpellshape",
+  "mergeable": true,
+  "option": "spellshape",
+  "placement": "spellcasting",
+  "suboptions": [
+    {
+      "label": "{item|name}",
+      "value": "{item|slug}"
+    }
+  ],
+  "toggleable": true
+}
+```
