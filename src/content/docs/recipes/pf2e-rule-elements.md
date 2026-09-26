@@ -3,7 +3,7 @@ title: PF2e Rule Element Recipes
 description: A list of useful rule element combinations for obscure situations.
 ---
 
-## Enemy has condition only to you
+## Target has X only for you
 Example: You have an effect that causes an enemy to be Off-Guard **specifically** to you, the effect origin.
 
 ```json
@@ -16,6 +16,8 @@ Example: You have an effect that causes an enemy to be Off-Guard **specifically*
   ]
 }
 ```
+
+The main parts here are 1. The effect has to be on the enemy and 2. The rule elements that grant them a given debuff have `"origin:signature:{item|origin.signature}"` predicate on them.
 
 ## The Spellshape
 Typical spellshape rule elements. Straight up copy paste if your feat name and descriptions are exactly what the spellshape should say. Otherwise edit.
