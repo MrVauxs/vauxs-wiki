@@ -23,6 +23,12 @@ export default defineConfig({
 					],
 				},
 				{
+					label: 'Recipes',
+					items: [
+						{ autogenerate: { directory: 'recipes' } }
+					],
+				},
+				{
 					label: 'Reference',
 					items: [
 						{ autogenerate: { directory: 'reference' } }
