@@ -19,6 +19,17 @@ Example: You have an effect that causes an enemy to be Off-Guard **specifically*
 
 The main parts here are 1. The effect has to be on the enemy and 2. The rule elements that grant them a given debuff have `"origin:signature:{item|origin.signature}"` predicate on them.
 
+## Bonus based on enemy condition
+
+At the time of writing there is no logical way of deriving bonuses from your attackers sheet. As such, the only remaining options for effects like *"You gain a status bonus to AC equal to the enemies Clumsy condition value."* is the following:
+
+```json
+{ "key": "FlatModifier", "selector": "ac", "type": "status", "value": 1, "predicate": ["origin:condition:clumsy:1"] },
+{ "key": "FlatModifier", "selector": "ac", "type": "status", "value": 2, "predicate": ["origin:condition:clumsy:2"] },
+{ "key": "FlatModifier", "selector": "ac", "type": "status", "value": 3, "predicate": ["origin:condition:clumsy:3"] },
+{ "key": "FlatModifier", "selector": "ac", "type": "status", "value": 4, "predicate": ["origin:condition:clumsy:4"] }
+```
+
 ## The Spellshape
 Typical spellshape rule elements. Straight up copy paste if your feat name and descriptions are exactly what the spellshape should say. Otherwise edit.
 
