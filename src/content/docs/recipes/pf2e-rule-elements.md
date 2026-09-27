@@ -19,9 +19,11 @@ Example: You have an effect that causes an enemy to be Off-Guard **specifically*
 
 The main parts here are 1. The effect has to be on the enemy and 2. The rule elements that grant them a given debuff have `"origin:signature:{item|origin.signature}"` predicate on them.
 
+Note: You may think of using Ephemeral Effects for this, [but right now you cannot chain them.](https://github.com/foundryvtt/pf2e/issues/17965)
+
 ## Bonus based on enemy condition
 
-At the time of writing there is no logical way of deriving bonuses from your attackers sheet. As such, the only remaining options for effects like *"You gain a status bonus to AC equal to the enemies Clumsy condition value."* is the following:
+[At the time of writing](https://github.com/foundryvtt/pf2e/issues/14774) there is no logical way of deriving bonuses from your attackers sheet. As such, the only remaining options for effects like *"You gain a status bonus to AC equal to the enemies Clumsy condition value."* is the following:
 
 ```json
 { "key": "FlatModifier", "selector": "ac", "type": "status", "value": 1, "predicate": ["origin:condition:clumsy:1"] },
