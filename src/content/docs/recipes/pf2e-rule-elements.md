@@ -26,7 +26,7 @@ Note: You may think of using Ephemeral Effects for this, [but right now you cann
 [At the time of writing](https://github.com/foundryvtt/pf2e/issues/14774) there is no logical way of deriving bonuses from your attackers sheet. As such, the only remaining options for effects like *"You gain a status bonus to AC equal to the enemies Clumsy condition value."* is the following:
 
 ```json
-{ "key": "FlatModifier", "selector": "ac", "type": "status", "value": 1, "predicate": ["origin:condition:clumsy:1"], "slug": "bonus-1", "hideIfDisabled": true }
+{ "key": "FlatModifier", "selector": "ac", "type": "status", "value": 1, "predicate": ["origin:condition:clumsy"], "slug": "bonus-1", "hideIfDisabled": true }
 { "key": "AdjustModifier", "mode": "upgrade", "predicate": [ "origin:condition:clumsy:2" ], "selector": "ac", "value": 2, "slug": "bonus-1" }
 { "key": "AdjustModifier", "mode": "upgrade", "predicate": [ "origin:condition:clumsy:3" ], "selector": "ac", "value": 3, "slug": "bonus-1" }
 { "key": "AdjustModifier", "mode": "upgrade", "predicate": [ "origin:condition:clumsy:4" ], "selector": "ac", "value": 4, "slug": "bonus-1" },
